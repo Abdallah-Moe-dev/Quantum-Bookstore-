@@ -1,5 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Inventory {
 
@@ -35,6 +34,22 @@ public class Inventory {
         book.purchase(quantity, email, address);
         System.out.println("Quantum Bookstore: Paid amount $" + cost);
 
+    }
+
+    public List<Book> removeremoveOutdatedBooks(int maxAge){
+        int currYear = Calendar.getInstance().get(Calendar.YEAR);
+        List<Book> removedBooks = new ArrayList<>();
+
+        Iterator<Map.Entry<String, Book>> iterator = inventory.entrySet().iterator();
+        while (iterator.hasNext()){
+            Book book = iterator.next().getValue();
+            if(currYear - book.getYear() > maxAge){
+                removedBooks.add(book);
+                iterator.remove();
+                System.out.println("Quantum book store: Removed outdated book " + book.getTitle() + " from year " + book.getYear());
+            }
+        }
+        return removedBooks;
     }
 
 }

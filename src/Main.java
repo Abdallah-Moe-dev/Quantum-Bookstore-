@@ -1,3 +1,4 @@
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -54,6 +55,33 @@ public class Main {
             inventory.buyBook("ISBN-001", 2, "123 Nile St.", "alice@example.com");
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+
+        System.out.println("\n-----------------------------\n");
+
+        Book book1 = new PaperBook(2010, 90.0, "OLD-001", "Old Author", "Legacy Code", 3);
+        Book book2 = new PaperBook(2020, 110.0, "NEW-001", "Modern Author", "Clean Architecture", 5);
+        Book book3 = new EBook(2012, 70.0, "OLD-002", "Someone Else", "Old PDF", "EPUB");
+        Book book4 = new DemoBook(2025, 0.0, "NEW-002", "Nobody", "Historic Relic");
+
+        inventory.addBook(book1);
+        inventory.addBook(book2);
+        inventory.addBook(book3);
+        inventory.addBook(book4);
+
+        System.out.println("\n--- Removing books older than 10 years ---");
+        List<Book> removed = inventory.removeremoveOutdatedBooks(10);
+
+        System.out.println("\nSummary of removed books:");
+        for (Book b : removed) {
+            System.out.println("- " + b.getTitle() + " (" + b.getYear() + ")");
+        }
+
+        System.out.println("\n--- Try buying removed book (should fail) ---");
+        try {
+            inventory.buyBook("OLD-001", 1, "Cairo", "user@example.com");
+        } catch (Exception e) {
+            System.out.println("Expected Error: " + e.getMessage());
         }
     }
 }
